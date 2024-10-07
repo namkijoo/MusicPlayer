@@ -17,6 +17,11 @@ function RightBar() {
 
     getPlayList();
   }, []);
+
+  const onClickMusicList = (index) => {
+    setCurrentAudioIndex(index);
+  };
+
   return (
     <Container>
       <MusicPlayerWrapper>
@@ -36,7 +41,7 @@ function RightBar() {
           playlistItems.map((element, key) => (
             <MusicList key={key}>
               <img src={element.snippet.thumbnails.default.url} />
-              <MusicInfo>
+              <MusicInfo onClick={() => onClickMusicList(key)}>
                 <span>
                   {element.snippet.title.length > 10
                     ? element.snippet.title.slice(0, 40) + '...'
