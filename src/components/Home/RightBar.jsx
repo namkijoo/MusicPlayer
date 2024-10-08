@@ -26,14 +26,23 @@ function RightBar() {
     <Container>
       <MusicPlayerWrapper>
         {playlistItems.length > 0 && (
-          <YouTube
-            videoId={playlistItems[currentAudioIndex].snippet.resourceId.videoId}
-            opts={{
-              width: '100%',
-              height: '200px',
-              playerVars: { autoplay: 1 },
-            }}
-          />
+          <>
+            <YouTube
+              key={currentAudioIndex}
+              videoId={playlistItems[currentAudioIndex].snippet.resourceId.videoId}
+              opts={{
+                width: '100%',
+                height: '200px',
+                playerVars: { autoplay: 1 },
+              }}
+              style={{ display: 'none' }}
+            />
+            <MusicPlayer>
+              <img src={playlistItems[currentAudioIndex].snippet.thumbnails.default.url} />
+              <span>{playlistItems[currentAudioIndex].snippet.title}</span>
+              <span>{playlistItems[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
+            </MusicPlayer>
+          </>
         )}
       </MusicPlayerWrapper>
       <MusicListsWrapper>
@@ -70,6 +79,9 @@ const Container = styled.div`
 const MusicPlayerWrapper = styled.div`
   height: 40%;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const MusicListsWrapper = styled.div`
   height: 60%;
@@ -88,6 +100,29 @@ const MusicList = styled.div`
   margin: 5px 10px;
   color: white;
   display: flex;
+`;
+
+const MusicPlayer = styled.div`
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  > img {
+    width: 50%;
+    height: 50%;
+  }
+  > :nth-child(2) {
+    margin: 5px;
+    color: white;
+    font-size: 12px;
+  }
+  > :nth-child(3) {
+    color: gray;
+    font-size: 11px;
+  }
 `;
 
 const MusicInfo = styled.div`
