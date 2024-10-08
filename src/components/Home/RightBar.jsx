@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getPlaylistItem } from '../../api/MusicApi/music.api';
 import YouTube from 'react-youtube';
@@ -7,6 +7,11 @@ import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
 function RightBar() {
   const [playlistItems, setPlaylistItems] = useState([]);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const playerRef = useRef(null);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     const getPlayList = async () => {
@@ -19,10 +24,62 @@ function RightBar() {
     getPlayList();
   }, []);
 
+  useEffect(() => {
+    if (playerRef.current && isPlaying) {
+      intervalRef.current = setInterval(updateProgress, 1000);
+    } else if (!isPlaying) {
+      clearInterval(intervalRef.current);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [isPlaying, currentAudioIndex]);
+
   const onClickMusicList = (index) => {
     setCurrentAudioIndex(index);
   };
 
+  const playNextAudio = () => {
+    setCurrentAudioIndex((prevIndex) => (prevIndex < playlistItems.length - 1 ? prevIndex + 1 : 0));
+  };
+
+  const playPrevAudio = () => {
+    setCurrentAudioIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : playlistItems.length - 1));
+  };
+
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      playerRef.current.pauseVideo();
+    } else {
+      playerRef.current.playVideo();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const onPlayerReady = (event) => {
+    playerRef.current = event.target;
+  };
+
+  const onPlayerEnd = () => {
+    playNextAudio();
+  };
+
+  const onProgressBarClick = (e) => {
+    if (playerRef.current) {
+      const rect = e.target.getBoundingClientRect();
+      const clickPosition = e.clientX - rect.left;
+      const newProgress = (clickPosition / rect.width) * 100;
+      const newTime = (playerRef.current.getDuration() * newProgress) / 100;
+      playerRef.current.seekTo(newTime, true);
+      setProgress(newProgress);
+    }
+  };
+
+  const updateProgress = () => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      const duration = playerRef.current.getDuration();
+      setProgress((currentTime / duration) * 100);
+    }
+  };
   return (
     <Container>
       <MusicPlayerWrapper>
@@ -37,20 +94,22 @@ function RightBar() {
                 playerVars: { autoplay: 1 },
               }}
               style={{ display: 'none' }}
+              onReady={onPlayerReady}
+              onEnd={onPlayerEnd}
             />
             <MusicPlayer>
               <img src={playlistItems[currentAudioIndex].snippet.thumbnails.medium.url} />
               <span>{playlistItems[currentAudioIndex].snippet.title}</span>
               <span>{playlistItems[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
-              <ProgressBarWrapper>
-                <ProgressBar progress="20" />
+              <ProgressBarWrapper onClick={onProgressBarClick}>
+                <ProgressBar progress={progress} />
               </ProgressBarWrapper>
               <MusicPlayerBtnWrapper>
-                <Btn>
+                <Btn onClick={playPrevAudio}>
                   <FaChevronLeft />
                 </Btn>
-                <Btn>{false ? <FaPause /> : <FaPlay />}</Btn>
-                <Btn>
+                <Btn onClick={togglePlayPause}>{isPlaying ? <FaPause /> : <FaPlay />}</Btn>
+                <Btn onClick={playNextAudio}>
                   <FaChevronRight />
                 </Btn>
               </MusicPlayerBtnWrapper>
@@ -59,6 +118,7 @@ function RightBar() {
         )}
       </MusicPlayerWrapper>
       <MusicListsWrapper>
+        <span>재생목록</span>
         {playlistItems &&
           playlistItems.map((element, key) => (
             <MusicList key={key}>
@@ -84,6 +144,7 @@ function RightBar() {
 
 const Container = styled.div`
   width: 20%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: #1d1c1c;
@@ -92,17 +153,25 @@ const Container = styled.div`
 const MusicPlayerWrapper = styled.div`
   height: 50%;
   width: 100%;
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  background: linear-gradient(120deg, #ff6f61, #444444, #1d1c1c);
 `;
 const MusicListsWrapper = styled.div`
-  height: 50%;
   width: 100%;
   overflow: auto;
   display: flex;
   flex-direction: column;
+  > span {
+    margin: 0 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+  }
 `;
 
 const MusicList = styled.div`
@@ -114,6 +183,7 @@ const MusicList = styled.div`
   margin: 5px 10px;
   color: white;
   display: flex;
+  cursor: pointer;
 `;
 
 const MusicPlayer = styled.div`
@@ -198,6 +268,7 @@ const ProgressBarWrapper = styled.div`
   height: 2px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const ProgressBar = styled.div`
