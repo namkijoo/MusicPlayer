@@ -3,26 +3,20 @@ import styled from 'styled-components';
 import { getPlaylistItem } from '../../api/MusicApi/music.api';
 import YouTube from 'react-youtube';
 import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
+import { useQuery } from '@tanstack/react-query';
 
 function RightBar() {
-  const [playlistItems, setPlaylistItems] = useState([]);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-
   const playerRef = useRef(null);
   const intervalRef = useRef(null);
 
-  useEffect(() => {
-    const getPlayList = async () => {
-      const playlist = await getPlaylistItem();
-      if (playlist) {
-        setPlaylistItems(playlist.items);
-      }
-    };
-
-    getPlayList();
-  }, []);
+  const { data } = useQuery({
+    queryKey: ['getPlaylistItem'],
+    queryFn: () => getPlaylistItem(),
+    refetchOnWindowFocus: true,
+  });
 
   useEffect(() => {
     if (playerRef.current && isPlaying) {
@@ -38,11 +32,11 @@ function RightBar() {
   };
 
   const playNextAudio = () => {
-    setCurrentAudioIndex((prevIndex) => (prevIndex < playlistItems.length - 1 ? prevIndex + 1 : 0));
+    setCurrentAudioIndex((prevIndex) => (prevIndex < data.length - 1 ? prevIndex + 1 : 0));
   };
 
   const playPrevAudio = () => {
-    setCurrentAudioIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : playlistItems.length - 1));
+    setCurrentAudioIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : data.length - 1));
   };
 
   const togglePlayPause = () => {
@@ -83,14 +77,12 @@ function RightBar() {
   return (
     <Container>
       <MusicPlayerWrapper>
-        {playlistItems.length > 0 && (
+        {data && (
           <>
             <YouTube
               key={currentAudioIndex}
-              videoId={playlistItems[currentAudioIndex].snippet.resourceId.videoId}
+              videoId={data[currentAudioIndex].snippet.resourceId.videoId}
               opts={{
-                width: '100%',
-                height: '200px',
                 playerVars: { autoplay: 1 },
               }}
               style={{ display: 'none' }}
@@ -98,9 +90,9 @@ function RightBar() {
               onEnd={onPlayerEnd}
             />
             <MusicPlayer>
-              <img src={playlistItems[currentAudioIndex].snippet.thumbnails.medium.url} />
-              <span>{playlistItems[currentAudioIndex].snippet.title}</span>
-              <span>{playlistItems[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
+              <img src={data[currentAudioIndex].snippet.thumbnails.medium.url} />
+              <span>{data[currentAudioIndex].snippet.title}</span>
+              <span>{data[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
               <ProgressBarWrapper onClick={onProgressBarClick}>
                 <ProgressBar progress={progress} />
               </ProgressBarWrapper>
@@ -119,8 +111,8 @@ function RightBar() {
       </MusicPlayerWrapper>
       <MusicListsWrapper>
         <span>재생목록</span>
-        {playlistItems &&
-          playlistItems.map((element, key) => (
+        {data &&
+          data.map((element, key) => (
             <MusicList key={key}>
               <img src={element.snippet.thumbnails.default.url} />
               <MusicInfo onClick={() => onClickMusicList(key)}>
