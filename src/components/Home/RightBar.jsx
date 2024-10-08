@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getPlaylistItem } from '../../api/MusicApi/music.api';
 import YouTube from 'react-youtube';
+import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
 
 function RightBar() {
   const [playlistItems, setPlaylistItems] = useState([]);
@@ -38,9 +39,21 @@ function RightBar() {
               style={{ display: 'none' }}
             />
             <MusicPlayer>
-              <img src={playlistItems[currentAudioIndex].snippet.thumbnails.default.url} />
+              <img src={playlistItems[currentAudioIndex].snippet.thumbnails.medium.url} />
               <span>{playlistItems[currentAudioIndex].snippet.title}</span>
               <span>{playlistItems[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
+              <ProgressBarWrapper>
+                <ProgressBar progress="20" />
+              </ProgressBarWrapper>
+              <MusicPlayerBtnWrapper>
+                <Btn>
+                  <FaChevronLeft />
+                </Btn>
+                <Btn>{false ? <FaPause /> : <FaPlay />}</Btn>
+                <Btn>
+                  <FaChevronRight />
+                </Btn>
+              </MusicPlayerBtnWrapper>
             </MusicPlayer>
           </>
         )}
@@ -77,14 +90,15 @@ const Container = styled.div`
 `;
 
 const MusicPlayerWrapper = styled.div`
-  height: 40%;
+  height: 50%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 `;
 const MusicListsWrapper = styled.div`
-  height: 60%;
+  height: 50%;
   width: 100%;
   overflow: auto;
   display: flex;
@@ -105,17 +119,19 @@ const MusicList = styled.div`
 const MusicPlayer = styled.div`
   display: flex;
   padding: 10px;
+  margin-top: 50px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
   height: 100%;
   > img {
-    width: 50%;
-    height: 50%;
+    width: 150px;
+    height: 150px;
   }
   > :nth-child(2) {
     margin: 5px;
+    margin-top: 10px;
     color: white;
     font-size: 12px;
   }
@@ -140,4 +156,54 @@ const MusicInfo = styled.div`
   }
 `;
 
+const MusicPlayerBtnWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Btn = ({ onClick, children }) => (
+  <StyledButton onClick={onClick}>
+    <Icon>{children}</Icon>
+  </StyledButton>
+);
+
+const StyledButton = styled.button`
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const Icon = styled.div`
+  font-size: 18px;
+  margin: 0 10px;
+  color: white;
+`;
+
+const ProgressBarWrapper = styled.div`
+  width: 95%;
+  margin: 20px auto;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  height: 2px;
+  position: relative;
+  overflow: hidden;
+`;
+
+const ProgressBar = styled.div`
+  width: ${({ progress }) => `${progress}%`};
+  background-color: #3b5998;
+  height: 100%;
+  transition: width 0.1s ease-in-out;
+`;
 export default RightBar;
