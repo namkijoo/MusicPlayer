@@ -188,8 +188,8 @@ const MusicPlayer = styled.div`
   width: 100%;
   height: 100%;
   > img {
-    width: 150px;
-    height: 150px;
+    width: 55%;
+    height: 45%;
   }
   > :nth-child(2) {
     margin: 5px;
