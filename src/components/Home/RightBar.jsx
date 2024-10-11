@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { getPlaylistItem } from '../../api/MusicApi/music.api';
+import { getPlaylistItem, getTopMusic } from '../../api/MusicApi/music.api';
 import YouTube from 'react-youtube';
 import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';

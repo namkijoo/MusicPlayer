@@ -19,3 +19,22 @@ export const getPlaylistItem = async () => {
     console.error('API 호출 중 오류 발생:', error);
   }
 };
+
+export const getTopMusic = async () => {
+  try {
+    const response = await axiosInstance.get('/videos', {
+      params: {
+        part: 'snippet',
+        chart: 'mostPopular',
+        regionCode: 'KR',
+        maxResults: '10',
+        videoCategoryId: 10,
+        key: VITE_YOUTUBE_API_KEY,
+      },
+    });
+    console.log('popular', response.data);
+    return response.data.items;
+  } catch (error) {
+    console.error('API 호출 중 오류 발생:', error);
+  }
+};
