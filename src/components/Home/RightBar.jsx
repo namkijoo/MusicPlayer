@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { getPlaylistItem, getTopMusic } from '../../api/MusicApi/music.api';
+import { deleteMusicList, getPlaylistItem, getRecommendMusic, getTopMusic } from '../../api/MusicApi/music.api';
 import YouTube from 'react-youtube';
 import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
+import { musicStore } from '../../store/musicStore';
+import { RiDeleteBin5Line } from 'react-icons/ri';
 
 function RightBar() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
@@ -12,11 +14,21 @@ function RightBar() {
   const playerRef = useRef(null);
   const intervalRef = useRef(null);
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['getPlaylistItem'],
     queryFn: () => getPlaylistItem(),
     refetchOnWindowFocus: true,
   });
+
+  const { setMusicList, setcurrentIndex } = musicStore();
+
+  useEffect(() => {
+    setMusicList(data);
+  }, [data]);
+
+  useEffect(() => {
+    setcurrentIndex(currentAudioIndex);
+  }, [currentAudioIndex]);
 
   useEffect(() => {
     if (playerRef.current && isPlaying) {
@@ -74,10 +86,21 @@ function RightBar() {
       setProgress((currentTime / duration) * 100);
     }
   };
+
+  const onDeleteBtnClick = async (playlistItemId) => {
+    const result = await deleteMusicList(playlistItemId);
+
+    if (result.success) {
+      alert('삭제되었습니다.');
+      await refetch();
+    } else {
+      alert(`삭제하는데 실패했습니다. ${result.message}`);
+    }
+  };
   return (
     <Container>
       <MusicPlayerWrapper>
-        {data && (
+        {Array.isArray(data) && data.length > 0 && (
           <>
             <YouTube
               key={currentAudioIndex}
@@ -114,6 +137,9 @@ function RightBar() {
         {data &&
           data.map((element, key) => (
             <MusicList key={key}>
+              <DeleteBtn onClick={() => onDeleteBtnClick(element.id)}>
+                <RiDeleteBin5Line />
+              </DeleteBtn>
               <img src={element.snippet.thumbnails.default.url} />
               <MusicInfo onClick={() => onClickMusicList(key)}>
                 <span>
@@ -215,6 +241,14 @@ const MusicInfo = styled.div`
     font-size: 12px;
     margin-left: 10px;
     color: #797777;
+  }
+`;
+
+const DeleteBtn = styled.div`
+  display: flex;
+  align-items: center;
+  > :nth-child(1) {
+    margin-right: 5px;
   }
 `;
 
