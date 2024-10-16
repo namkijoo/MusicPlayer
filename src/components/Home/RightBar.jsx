@@ -88,13 +88,30 @@ function RightBar() {
   };
 
   const onDeleteBtnClick = async (playlistItemId) => {
-    const result = await deleteMusicList(playlistItemId);
-
-    if (result.success) {
-      alert('삭제되었습니다.');
-      await refetch();
+    if (!localStorage.getItem('token')) {
+      alert('로그인 후 삭제가능합니다. ');
     } else {
-      alert(`삭제하는데 실패했습니다. ${result.message}`);
+      const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
+
+      if (confirmDelete) {
+        try {
+          const result = await deleteMusicList(playlistItemId);
+
+          if (result.success) {
+            alert('삭제되었습니다.');
+            setTimeout(async () => {
+              await refetch();
+            }, 1000);
+          } else {
+            alert(`삭제하는데 실패했습니다. ${result.message}`);
+          }
+        } catch (error) {
+          lert(`삭제하는데 실패했습니다. ${result.message}`);
+          console.error('삭제 중 에러 발생: ', error);
+        }
+      } else {
+        alert('삭제가 취소되었습니다.');
+      }
     }
   };
   return (
@@ -169,7 +186,6 @@ const Container = styled.div`
 `;
 
 const MusicPlayerWrapper = styled.div`
-  height: 50%;
   width: 100%;
   margin-bottom: 30px;
   display: flex;
@@ -256,6 +272,7 @@ const MusicPlayerBtnWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
 `;
 
 const Btn = ({ onClick, children }) => (

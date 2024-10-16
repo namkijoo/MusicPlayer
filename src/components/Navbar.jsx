@@ -1,14 +1,29 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   return (
     <Container>
       <span>KIJOO</span>
       <img src="circle.png" />
-      <NavItem isActive={location.pathname === '/'}>음악홈</NavItem>
-      <NavItem isActive={location.pathname === '/search'}>음악검색</NavItem>
+      <NavItem
+        isActive={location.pathname === '/'}
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        음악홈
+      </NavItem>
+      <NavItem
+        isActive={location.pathname === '/search'}
+        onClick={() => {
+          navigate('/search');
+        }}
+      >
+        음악검색
+      </NavItem>
     </Container>
   );
 }

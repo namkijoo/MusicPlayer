@@ -50,13 +50,13 @@ export const getRecommendMusic = async (videoId) => {
     });
 
     if (response.data && response.data.items) {
-      return response.data.items; // 추천 음악 데이터 반환
+      return response.data.items;
     } else {
-      return []; // 추천 음악 데이터가 없을 경우 빈 배열 반환
+      return [];
     }
   } catch (error) {
     console.error('API 호출 중 오류 발생:', error);
-    return []; // 오류 발생 시 빈 배열 반환
+    return [];
   }
 };
 
@@ -71,6 +71,25 @@ export const deleteMusicList = async (playlistItemId) => {
       return { success: true, message: 'Item deleted successfully' };
     }
     return { success: false, message: 'Failed to delete item' };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSearchMusicList = async (searchTerm) => {
+  try {
+    const response = await axiosInstance.get(`/search`, {
+      params: {
+        part: 'snippet',
+        q: searchTerm,
+        type: 'video',
+        maxResults: 10,
+        videoCategoryId: 10,
+        key: VITE_YOUTUBE_API_KEY,
+      },
+    });
+    console.log(response.data);
+    return response.data.items;
   } catch (error) {
     console.log(error);
   }

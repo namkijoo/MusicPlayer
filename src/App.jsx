@@ -3,8 +3,9 @@ import Home from './pages/Home.';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import LeftBar from './components/Home/LeftBar';
+import MusicSearh from './components/Search/MusicSearch';
 
-const VITE_GOOGLE_CLIENTID = import.meta.env.VITE_GOGGLE_CLIENTID;
+const VITE_GOOGLE_CLIENTID = import.meta.env.VITE_GOOGLE_CLIENTID;
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <LeftBar />,
+      },
+      {
+        path: 'search',
+        element: <MusicSearh />,
       },
     ],
   },
