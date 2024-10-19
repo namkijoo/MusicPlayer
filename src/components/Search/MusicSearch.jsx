@@ -1,14 +1,18 @@
 import styled from 'styled-components';
 import Login from '../Login/Login';
-import { FaPlay, FaPlus, FaSearch } from 'react-icons/fa';
+import { FaPause, FaPlay, FaPlus, FaSearch } from 'react-icons/fa';
 import { useState } from 'react';
-import { getSearchMusicList } from '../../api/MusicApi/music.api';
-import { useQuery } from '@tanstack/react-query';
-import { BiPlay, BiPlus } from 'react-icons/bi';
+import { getSearchMusicList, postMusicList } from '../../api/MusicApi/music.api';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import YouTube from 'react-youtube';
 
 function MusicSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const [fetchData, setFetchData] = useState(false);
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(null);
+  const [videoId, setVideoId] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [player, setPlayer] = useState(null);
 
   const onChangeSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -28,9 +32,49 @@ function MusicSearch() {
   const { data = [], refetch } = useQuery({
     queryKey: ['getSearchMusicList'],
     queryFn: () => getSearchMusicList(searchTerm),
-    enabled: fetchData,
+    enabled: fetchData && searchTerm.length > 0,
     refetchOnWindowFocus: true,
   });
+
+  const onClickMusicList = (index, videoId) => {
+    setCurrentAudioIndex(index);
+    setVideoId(videoId);
+    setIsPlaying(true);
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: (videoId) => postMusicList(videoId),
+    onSuccess: () => {
+      console.log('Music added to playlist successfully');
+      alert('추가 되었습니다.');
+    },
+    onError: (error) => {
+      console.error('Error adding music to playlist:', error);
+      alert('잠시 후 다시 시도해주세요.');
+    },
+  });
+
+  const addOnClick = (videoId) => {
+    mutate(videoId);
+  };
+
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const onPlayerReady = (event) => {
+    setPlayer(event.target);
+  };
+  const opts = {
+    playerVars: {
+      autoplay: 1,
+    },
+  };
 
   return (
     <Container>
@@ -38,9 +82,15 @@ function MusicSearch() {
       <SearchWrapper>
         <FaSearch onClick={handleSearchClick} />
         <span>검색</span>
-        <input onChange={onChangeSearch} value={searchTerm} onKeyDown={handleEnter} />
+        <input
+          placeholder="검색어를 입력해주세요."
+          onChange={onChangeSearch}
+          value={searchTerm}
+          onKeyDown={handleEnter}
+        />
       </SearchWrapper>
       <Line />
+      {videoId && <YouTube videoId={videoId} opts={opts} style={{ display: 'none' }} onReady={onPlayerReady} />}
       <MusicListWrapper>
         {data.length > 0 ? (
           data.map((element, index) => (
@@ -54,8 +104,12 @@ function MusicSearch() {
                 </span>
               </MusicListLeft>
               <MusicListRight>
-                <FaPlay />
-                <FaPlus />
+                {currentAudioIndex === index && isPlaying ? (
+                  <FaPause onClick={togglePlayPause} />
+                ) : (
+                  <FaPlay onClick={() => onClickMusicList(index, element.id.videoId)} />
+                )}
+                <FaPlus onClick={() => addOnClick(element.id.videoId)} />
               </MusicListRight>
             </MusicList>
           ))
@@ -123,7 +177,15 @@ const MusicListWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
+  padding: 10px;
+
+  /* IE, Edge */
   -ms-overflow-style: none;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Webkit (Chrome, Safari) */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -145,7 +207,7 @@ const MusicListLeft = styled.div`
   }
   > span {
     color: lightgray;
-    margin-left: 10px;
+    margin-left: 20px;
   }
 `;
 
@@ -155,9 +217,15 @@ const MusicListRight = styled.div`
 
   :nth-child(1) {
     cursor: pointer;
+    &:hover {
+      color: lightgray;
+    }
   }
   :nth-child(2) {
     margin: 0 20px;
+    &:hover {
+      color: lightgray;
+    }
     cursor: pointer;
   }
 `;

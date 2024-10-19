@@ -94,3 +94,31 @@ export const getSearchMusicList = async (searchTerm) => {
     console.log(error);
   }
 };
+
+export const postMusicList = async (videoId) => {
+  try {
+    await axiosInstance.post(
+      '/playlistItems',
+      {
+        snippet: {
+          playlistId: VITE_YOUTUBE_PLAYLIST_KEY,
+          resourceId: {
+            kind: 'youtube#video',
+            videoId: videoId,
+          },
+        },
+      },
+      {
+        params: {
+          part: 'snippet',
+          key: VITE_YOUTUBE_API_KEY,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      },
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
