@@ -25,10 +25,6 @@ function Login() {
 }
 
 const TopMenuWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: right;
-  padding: 10px;
   cursor: pointer;
 `;
 

@@ -6,7 +6,6 @@ function Navbar() {
   const navigate = useNavigate();
   return (
     <Container>
-      <span>KIJOO</span>
       <img src="circle.png" />
       <NavItem
         isActive={location.pathname === '/'}
@@ -34,16 +33,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  > :nth-child(1) {
-    margin-top: 10px;
-    margin-left: 20px;
-    font-size: 15px;
-    color: gray;
-    font-weight: bold;
-  }
-
   > img {
-    margin-top: 60px;
     margin-bottom: 20px;
     margin-left: 20px;
     border-radius: 20px;

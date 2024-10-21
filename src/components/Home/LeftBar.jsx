@@ -24,7 +24,6 @@ function LeftBar() {
 
   return (
     <Container>
-      <Login />
       <TopMusicWrapper>
         <span>TOP 10 추천</span>
         <span>인기있는 10개의 추천 음악을 같이 즐겨요.</span>
@@ -109,8 +108,8 @@ const CustomSlider = styled(Slider)`
 `;
 
 const Container = styled.div`
-  width: 70%;
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   overflow: auto;
@@ -129,7 +128,7 @@ const TopMusicWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 50px;
+  padding: 0 50px;
   > :nth-child(1) {
     color: white;
     margin: 0 10px;
@@ -161,7 +160,7 @@ const RecommendMusicWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 30px 50px 50px 50px;
+  padding: 50px;
   > :nth-child(1) {
     color: white;
     margin: 0 10px;
