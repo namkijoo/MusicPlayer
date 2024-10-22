@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import Login from '../Login/Login';
 import { FaPause, FaPlay, FaPlus, FaSearch } from 'react-icons/fa';
 import { useState } from 'react';
 import { getSearchMusicList, postMusicList } from '../../api/MusicApi/music.api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import YouTube from 'react-youtube';
 
 function MusicSearch() {
@@ -41,12 +40,14 @@ function MusicSearch() {
     setVideoId(videoId);
     setIsPlaying(true);
   };
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (videoId) => postMusicList(videoId),
     onSuccess: () => {
       console.log('Music added to playlist successfully');
       alert('추가 되었습니다.');
+      queryClient.invalidateQueries('getPlaylistItem');
     },
     onError: (error) => {
       console.error('Error adding music to playlist:', error);
@@ -54,8 +55,22 @@ function MusicSearch() {
     },
   });
 
-  const addOnClick = (videoId) => {
-    mutate(videoId);
+  const addOnClick = async (videoId) => {
+    if (!localStorage.getItem('token')) {
+      alert('로그인 후 삭제가능합니다. ');
+    } else {
+      const confirmDelete = window.confirm('추가하시겠습니까?');
+
+      if (confirmDelete) {
+        try {
+          mutate(videoId);
+        } catch (error) {
+          console.error('삭제 중 에러 발생: ', error);
+        }
+      } else {
+        alert('삭제가 취소되었습니다.');
+      }
+    }
   };
 
   const togglePlayPause = () => {
@@ -78,7 +93,6 @@ function MusicSearch() {
 
   return (
     <Container>
-      <Login />
       <SearchWrapper>
         <FaSearch onClick={handleSearchClick} />
         <span>검색</span>
@@ -122,7 +136,7 @@ function MusicSearch() {
 }
 
 const Container = styled.div`
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,7 +146,8 @@ const Container = styled.div`
 
 const SearchWrapper = styled.div`
   width: 100%;
-  margin-top: 50px;
+
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -147,9 +162,9 @@ const SearchWrapper = styled.div`
   }
   > input {
     border-radius: 20px;
-    height: 30px;
-    width: 180px;
-    padding-left: 5px;
+    height: 35px;
+    width: 200px;
+    padding-left: 10px;
     padding-right: 30px;
     background-color: lightgray;
   }

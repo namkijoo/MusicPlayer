@@ -153,7 +153,7 @@ function RightBar() {
         <span>재생목록</span>
         {data &&
           data.map((element, key) => (
-            <MusicList key={key} playing={currentAudioIndex === key}>
+            <MusicList key={key} $playing={currentAudioIndex === key}>
               <DeleteBtn onClick={() => onDeleteBtnClick(element.id)}>
                 <RiDeleteBin5Line />
               </DeleteBtn>
@@ -209,7 +209,7 @@ const MusicListsWrapper = styled.div`
 `;
 
 const MusicList = styled.div`
-  border: ${({ playing }) => (playing ? '1px solid lightgray' : 'none')};
+  border: ${({ $playing }) => ($playing ? '1px solid lightgray' : 'none')};
 
   > img {
     height: 50px;

@@ -8,7 +8,7 @@ function Navbar() {
     <Container>
       <img src="circle.png" />
       <NavItem
-        isActive={location.pathname === '/'}
+        $isActive={location.pathname === '/'}
         onClick={() => {
           navigate('/');
         }}
@@ -16,7 +16,7 @@ function Navbar() {
         음악홈
       </NavItem>
       <NavItem
-        isActive={location.pathname === '/search'}
+        $isActive={location.pathname === '/search'}
         onClick={() => {
           navigate('/search');
         }}
@@ -46,8 +46,8 @@ const NavItem = styled.span`
   margin: 5px;
   width: 100%;
   padding-left: 20px;
-  border-left: ${({ isActive }) => (isActive ? '3px solid yellow;' : 'none')};
+  border-left: ${({ $isActive }) => ($isActive ? '3px solid yellow;' : 'none')};
   cursor: pointer;
-  color: ${({ isActive }) => (isActive ? 'white' : 'gray')};
+  color: ${({ $isActive }) => ($isActive ? 'white' : 'gray')};
 `;
 export default Navbar;
