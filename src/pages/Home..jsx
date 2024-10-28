@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import RightBar from '../components/Home/RightBar';
+import MusicPlayer from '../components/Home/MusicPlayer';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
@@ -14,7 +14,7 @@ function Home() {
           <Outlet />
         </Main>
       </LeftBar>
-      <RightBar />
+      <MusicPlayer />
     </Container>
   );
 }

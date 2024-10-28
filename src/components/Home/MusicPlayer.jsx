@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { deleteMusicList, getPlaylistItem, getRecommendMusic, getTopMusic } from '../../api/MusicApi/music.api';
+import { deleteMusicList, getPlaylistItem } from '../../api/MusicApi/music.api';
 import YouTube from 'react-youtube';
 import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
 import { musicStore } from '../../store/musicStore';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 
-function RightBar() {
+function MusicPlayer() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -39,17 +39,17 @@ function RightBar() {
     return () => clearInterval(intervalRef.current);
   }, [isPlaying, currentAudioIndex]);
 
-  const onClickMusicList = (index) => {
+  const onClickMusicList = useCallback((index) => {
     setCurrentAudioIndex(index);
-  };
+  }, []);
 
-  const playNextAudio = () => {
+  const playNextAudio = useCallback(() => {
     setCurrentAudioIndex((prevIndex) => (prevIndex < data.length - 1 ? prevIndex + 1 : 0));
-  };
+  }, [data]);
 
-  const playPrevAudio = () => {
+  const playPrevAudio = useCallback(() => {
     setCurrentAudioIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : data.length - 1));
-  };
+  }, [data]);
 
   const togglePlayPause = () => {
     if (isPlaying) {
@@ -129,7 +129,7 @@ function RightBar() {
               onReady={onPlayerReady}
               onEnd={onPlayerEnd}
             />
-            <MusicPlayer>
+            <MusicPlayers>
               <img src={data[currentAudioIndex].snippet.thumbnails.medium.url} />
               <span>{data[currentAudioIndex].snippet.title}</span>
               <span>{data[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
@@ -145,7 +145,7 @@ function RightBar() {
                   <FaChevronRight />
                 </Btn>
               </MusicPlayerBtnWrapper>
-            </MusicPlayer>
+            </MusicPlayers>
           </>
         )}
       </MusicPlayerWrapper>
@@ -222,7 +222,7 @@ const MusicList = styled.div`
   cursor: pointer;
 `;
 
-const MusicPlayer = styled.div`
+const MusicPlayers = styled.div`
   display: flex;
   padding: 10px;
   margin-top: 50px;
@@ -322,4 +322,4 @@ const ProgressBar = styled.div`
   height: 100%;
   transition: width 0.1s ease-in-out;
 `;
-export default RightBar;
+export default MusicPlayer;

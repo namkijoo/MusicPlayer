@@ -45,19 +45,17 @@ function MusicSearch() {
   const { mutate } = useMutation({
     mutationFn: (videoId) => postMusicList(videoId),
     onSuccess: () => {
-      console.log('Music added to playlist successfully');
       alert('추가 되었습니다.');
       queryClient.invalidateQueries('getPlaylistItem');
     },
     onError: (error) => {
-      console.error('Error adding music to playlist:', error);
       alert('잠시 후 다시 시도해주세요.');
     },
   });
 
   const addOnClick = async (videoId) => {
     if (!localStorage.getItem('token')) {
-      alert('로그인 후 삭제가능합니다. ');
+      alert('로그인 후 추가해주세요. ');
     } else {
       const confirmDelete = window.confirm('추가하시겠습니까?');
 

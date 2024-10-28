@@ -32,7 +32,6 @@ export const getTopMusic = async () => {
         key: VITE_YOUTUBE_API_KEY,
       },
     });
-    console.log('popular', response.data);
     return response.data.items;
   } catch (error) {
     console.error('API 호출 중 오류 발생:', error);
