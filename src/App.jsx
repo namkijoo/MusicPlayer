@@ -32,7 +32,6 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={VITE_GOOGLE_CLIENTID}>
       <QueryClientProvider client={queryClient}>
-        {/* Suspense로 로딩 UI를 감싸 코드 스플리팅 적용 */}
         <Suspense fallback={<div>Loading...</div>}>
           <RouterProvider router={router} />
         </Suspense>
