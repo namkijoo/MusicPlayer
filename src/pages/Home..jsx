@@ -21,7 +21,7 @@ function Home() {
 
 const Container = styled.div`
   display: flex;
-  background-color: #313131;
+  background-color: #393737;
   width: 100vw;
   height: 100vh;
   overflow: auto;
