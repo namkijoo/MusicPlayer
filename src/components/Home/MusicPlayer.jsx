@@ -57,11 +57,21 @@ function MusicPlayer() {
     } else {
       playerRef.current.playVideo();
     }
-    setIsPlaying(!isPlaying);
+    setIsPlaying((prevState) => !prevState);
   };
 
   const onPlayerReady = (event) => {
     playerRef.current = event.target;
+
+    playerRef.current.addEventListener('onStateChange', onPlayerStateChange);
+  };
+
+  const onPlayerStateChange = (event) => {
+    if (event.data === YT.PlayerState.PLAYING) {
+      setIsPlaying(true);
+    } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+      setIsPlaying(false);
+    }
   };
 
   const onPlayerEnd = () => {
@@ -106,7 +116,7 @@ function MusicPlayer() {
             alert(`삭제하는데 실패했습니다. ${result.message}`);
           }
         } catch (error) {
-          lert(`삭제하는데 실패했습니다. ${result.message}`);
+          alert(`삭제하는데 실패했습니다. ${result.message}`);
           console.error('삭제 중 에러 발생: ', error);
         }
       } else {
