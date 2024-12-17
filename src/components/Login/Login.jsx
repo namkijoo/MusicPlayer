@@ -18,7 +18,6 @@ function Login() {
     onSuccess: (tokenResponse) => {
       localStorage.setItem('token', tokenResponse.access_token);
       setIsLoggedIn(true);
-      console.log(tokenResponse.access_token);
     },
     onError: (errorResponse) => console.log(errorResponse),
     scope: VITE_YOUTUBE_SCOPE,
