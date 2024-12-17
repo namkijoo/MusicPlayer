@@ -135,16 +135,15 @@ function MusicSearch() {
 
 const Container = styled.div`
   width: 100%;
+  height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: auto;
   padding: 0 60px;
 `;
 
 const SearchWrapper = styled.div`
   width: 100%;
-
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
@@ -188,20 +187,15 @@ const ResultImg = styled.img`
 
 const MusicListWrapper = styled.div`
   width: 100%;
-  height: 100%;
-  overflow: auto;
   padding: 10px;
+  overflow: scroll;
+  /* -ms-overflow-style: none;
 
-  /* IE, Edge */
-  -ms-overflow-style: none;
-
-  /* Firefox */
   scrollbar-width: none;
 
-  /* Webkit (Chrome, Safari) */
   ::-webkit-scrollbar {
     display: none;
-  }
+  } */
 `;
 
 const MusicList = styled.div`
