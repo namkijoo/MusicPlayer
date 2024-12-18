@@ -38,4 +38,4 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Vercel Personal Access Token
           vercel-args: '--prod --yes'
           working-directory: ./ # 배포할 디렉터리 (프로젝트 루트 기준)
-          project-name: music-player
+          vercel-project-name: 'nkj-player'
