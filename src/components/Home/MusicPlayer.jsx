@@ -13,6 +13,7 @@ function MusicPlayer() {
   const [progress, setProgress] = useState(0);
   const playerRef = useRef(null);
   const intervalRef = useRef(null);
+  const [position, setPosition] = useState(true);
 
   const { data, refetch } = useQuery({
     queryKey: ['getPlaylistItem'],
@@ -126,7 +127,7 @@ function MusicPlayer() {
   };
   return (
     <Container>
-      <MusicPlayerWrapper>
+      <MusicPlayerWrapper $position={position}>
         {Array.isArray(data) && data.length > 0 && (
           <>
             <YouTube
@@ -140,7 +141,7 @@ function MusicPlayer() {
               onEnd={onPlayerEnd}
             />
             <MusicPlayers>
-              <img src={data[currentAudioIndex].snippet.thumbnails.medium.url} />
+              <img src={data[currentAudioIndex].snippet.thumbnails.medium.url} onClick={() => setPosition(!position)} />
               <span>{data[currentAudioIndex].snippet.title}</span>
               <span>{data[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
               <ProgressBarWrapper onClick={onProgressBarClick}>
@@ -196,13 +197,17 @@ const Container = styled.div`
 `;
 
 const MusicPlayerWrapper = styled.div`
-  width: 100%;
+  width: ${({ $position }) => ($position ? '100%' : '80%')};
+  height: ${({ $position }) => ($position ? '' : '100%')};
   margin-bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   background: linear-gradient(120deg, #ff6f61, #444444, #1d1c1c);
+  position: ${({ $position }) => ($position ? 'static' : 'fixed')};
+  top: 0;
+  left: 0;
 `;
 const MusicListsWrapper = styled.div`
   width: 100%;
@@ -244,6 +249,7 @@ const MusicPlayers = styled.div`
   > img {
     width: 55%;
     height: 45%;
+    cursor: pointer;
   }
   > :nth-child(2) {
     margin: 5px;
@@ -320,7 +326,7 @@ const ProgressBarWrapper = styled.div`
   margin: 20px auto;
   background-color: #e0e0e0;
   border-radius: 5px;
-  height: 2px;
+  height: 5px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
