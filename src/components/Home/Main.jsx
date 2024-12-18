@@ -96,6 +96,7 @@ const CustomSlider = styled(Slider)`
 const Container = styled.div`
   display: flex;
   width: 100%;
+  height: calc(100vh - 80px);
   flex-direction: column;
   align-items: center;
   overflow: auto;
