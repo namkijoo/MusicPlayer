@@ -2,7 +2,7 @@
   "name": "nkj-player",
   "builds": [
     {
-      "src": "dist/**",
+      "src": "index.html",
       "use": "@vercel/static"
     }
   ],
@@ -10,12 +10,6 @@
     {
       "src": "/(.*)",
       "dest": "/index.html"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
