@@ -1,3 +1,4 @@
 {
+  "name": "nkj-player",
   "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 }
