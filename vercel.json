@@ -2,7 +2,7 @@
   "name": "nkj-player",
   "builds": [
     {
-      "src": "build/**",
+      "src": "dist/**",
       "use": "@vercel/static"
     }
   ],
