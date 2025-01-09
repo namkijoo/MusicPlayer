@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import styled from 'styled-components';
 
 const VITE_GOOGLE_CLIENTID = import.meta.env.VITE_GOOGLE_CLIENTID;
 
@@ -32,7 +33,7 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={VITE_GOOGLE_CLIENTID}>
       <QueryClientProvider client={queryClient}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading>Loading...</Loading>}>
           <RouterProvider router={router} />
         </Suspense>
       </QueryClientProvider>
@@ -40,4 +41,10 @@ function App() {
   );
 }
 
+const Loading = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 export default App;
