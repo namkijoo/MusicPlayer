@@ -146,6 +146,7 @@ const RecommendMusicWrapper = styled.div`
 `;
 
 const MusicBox = styled.div`
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

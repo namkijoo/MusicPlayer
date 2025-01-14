@@ -1,5 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { SearchIcon } from '../assets/_index';
+import { MyPageIcon } from '../assets/_index';
+import { HomeIcon } from '../assets/_index';
 
 function Navbar() {
   const location = useLocation();
@@ -12,7 +15,7 @@ function Navbar() {
           navigate('/');
         }}
       >
-        <img src="/homeIcon.png" />
+        <HomeIcon style={{}} />
       </NavItem>
       <NavItem
         $isActive={location.pathname === '/search'}
@@ -20,7 +23,7 @@ function Navbar() {
           navigate('/search');
         }}
       >
-        <img src="/searchIcon.png" />
+        <SearchIcon style={{}} />
       </NavItem>
       <NavItem
         $isActive={location.pathname === '/search'}
@@ -28,7 +31,7 @@ function Navbar() {
           navigate('/search');
         }}
       >
-        <img src="/myPageIcon.png" />
+        <MyPageIcon />
       </NavItem>
     </Container>
   );
@@ -53,9 +56,10 @@ const NavItem = styled.span`
   /* border-left: ${({ $isActive }) => ($isActive ? '3px solid yellow;' : 'none')}; */
   cursor: pointer;
   color: ${({ $isActive }) => ($isActive ? 'white' : 'gray')};
-  > img {
-    width: 32px;
-    height: 32px;
+  :nth-child(1) {
+    fill: lightgray;
+    width: 30px;
+    height: 30px;
   }
 `;
 export default Navbar;

@@ -25,7 +25,7 @@ function Home() {
 
 const Container = styled.div`
   display: flex;
-  background-color: #393737;
+  background-color: #212020;
   align-items: center;
   justify-content: center;
   margin: 0 auto;

@@ -1,10 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [react()],
-  build: {
-    outDir: 'dist', // 빌드 파일이 생성될 폴더
-  },
-  base: './', // 정적 파일을 상대 경로로 설정
+  plugins: [
+    react(),
+    svgr({
+      exportAsDefault: false, // ReactComponent 방식 사용
+      svgrOptions: {
+        icon: true, // 아이콘 옵션 활성화
+      },
+    }),
+  ],
 });

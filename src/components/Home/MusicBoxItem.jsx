@@ -6,7 +6,7 @@ const MusicBoxItem = ({ title, artist, imgUrl }) => {
     <MusicBoxItemWrapper>
       <img src={imgUrl} loading="lazy" alt={title} />
       <div>
-        <span>{title.length > 25 ? `${title.slice(0, 25)}...` : title}</span>
+        <span>{title.length > 35 ? `${title.slice(0, 35)}...` : title}</span>
         <span>{artist}</span>
       </div>
     </MusicBoxItemWrapper>
@@ -14,10 +14,10 @@ const MusicBoxItem = ({ title, artist, imgUrl }) => {
 };
 
 const MusicBoxItemWrapper = styled.div`
-  width: 48%;
+  width: 108%;
   height: 50px;
   background-color: #494949;
-  margin: 5px;
+  margin: 10px;
   display: flex;
   > img {
     margin: 2px;
