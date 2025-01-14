@@ -7,14 +7,18 @@ import Header from '../components/Header';
 function Home() {
   return (
     <Container>
-      <LeftBar>
+      {/* <LeftBar>
         <Header />
         <Main>
           <Navbar />
           <Outlet />
         </Main>
-      </LeftBar>
-      <MusicPlayer />
+      </LeftBar> */}
+      {/* <MusicPlayer /> */}
+      <Main>
+        <Navbar />
+        <Outlet />
+      </Main>
     </Container>
   );
 }
@@ -22,7 +26,10 @@ function Home() {
 const Container = styled.div`
   display: flex;
   background-color: #393737;
-  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 480px;
   height: 100vh;
   overflow: auto;
   -ms-overflow-style: none;
