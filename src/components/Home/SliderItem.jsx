@@ -17,7 +17,6 @@ const SliderItemStyle = styled.div`
   padding: 0 10px;
   width: 100%;
   text-align: center;
-
   img {
     width: 100%;
     display: block;

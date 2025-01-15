@@ -46,6 +46,7 @@ const Container = styled.div`
   height: 70px;
   text-align: center;
   border-top: 1px solid lightgray;
+  background-color: #212020;
 `;
 
 const NavItem = styled.span`

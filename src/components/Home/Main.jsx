@@ -91,17 +91,21 @@ const CustomSlider = styled(Slider)`
     color: white;
     opacity: 1;
   }
+  position: relative;
+  z-index: 10; /* 여기서 슬라이더의 전체 z-index 설정 */
 `;
 
 const Container = styled.div`
+  margin-top: 25px;
   display: flex;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 160px);
   flex-direction: column;
   align-items: center;
   overflow: auto;
   -ms-overflow-style: none;
-
+  position: relative;
+  z-index: 0;
   /* Firefox */
   scrollbar-width: none;
 

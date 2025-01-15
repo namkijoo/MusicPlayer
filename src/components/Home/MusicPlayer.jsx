@@ -6,6 +6,7 @@ import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
 import { musicStore } from '../../store/musicStore';
 import { RiDeleteBin5Line } from 'react-icons/ri';
+import { ListIcon } from '../../assets/_index';
 
 function MusicPlayer() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
@@ -127,7 +128,77 @@ function MusicPlayer() {
   };
   return (
     <Container>
-      <MusicPlayerWrapper $position={position}>
+      <ProgressBarWrapper onClick={onProgressBarClick}>
+        <ProgressBar progress={progress} />
+      </ProgressBarWrapper>
+      <MusicPlayerWrapper>
+        {Array.isArray(data) && data.length > 0 && (
+          <>
+            <YouTube
+              key={currentAudioIndex}
+              videoId={data[currentAudioIndex].snippet.resourceId.videoId}
+              opts={{
+                playerVars: { autoplay: 1 },
+              }}
+              style={{ display: 'none' }}
+              onReady={onPlayerReady}
+              onEnd={onPlayerEnd}
+            />
+            <MusicPlayers>
+              <span>
+                {data[currentAudioIndex].snippet.title.length > 20
+                  ? data[currentAudioIndex].snippet.title.slice(0, 20) + '...'
+                  : data[currentAudioIndex].snippet.title}
+              </span>
+              <span>{data[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
+            </MusicPlayers>
+            <MusicPlayerBtnWrapper>
+              <Btn onClick={playPrevAudio}>
+                <FaChevronLeft />
+              </Btn>
+              <Btn onClick={togglePlayPause}>{isPlaying ? <FaPause /> : <FaPlay />}</Btn>
+              <Btn onClick={playNextAudio}>
+                <FaChevronRight />
+              </Btn>
+              <ListIcon
+                style={{
+                  width: '25px',
+                  height: '25px',
+                  fill: 'white',
+                  marginLeft: '5px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setPosition(!position)}
+              />
+            </MusicPlayerBtnWrapper>
+          </>
+        )}
+      </MusicPlayerWrapper>
+      <MusicListsWrapper $position={position}>
+        <span>재생목록</span>
+        {data &&
+          data.map((element, key) => (
+            <MusicList key={key} $playing={currentAudioIndex === key}>
+              <img src={element.snippet.thumbnails.default.url} />
+              <MusicInfo onClick={() => onClickMusicList(key)}>
+                <span>
+                  {element.snippet.title.length > 40
+                    ? element.snippet.title.slice(0, 40) + '...'
+                    : element.snippet.title}
+                </span>
+                <span>
+                  {element.snippet.videoOwnerChannelTitle.length > 40
+                    ? element.snippet.videoOwnerChannelTitle.slice(0, 40) + '...'
+                    : element.snippet.videoOwnerChannelTitle}
+                </span>
+              </MusicInfo>
+              <DeleteBtn onClick={() => onDeleteBtnClick(element.id)}>
+                <RiDeleteBin5Line />
+              </DeleteBtn>
+            </MusicList>
+          ))}
+      </MusicListsWrapper>
+      {/* <MusicPlayerWrapper $position={position}>
         {Array.isArray(data) && data.length > 0 && (
           <>
             <YouTube
@@ -183,21 +254,27 @@ function MusicPlayer() {
               </MusicInfo>
             </MusicList>
           ))}
-      </MusicListsWrapper>
+      </MusicListsWrapper> */}
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 20%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #1d1c1c;
+  height: 60px;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  max-width: 480px;
+  bottom: 70px;
+  background-color: #212020;
+  border-top: 1px solid #313030;
 `;
 
 const MusicPlayerWrapper = styled.div`
-  width: ${({ $position }) => ($position ? '100%' : '80%')};
+  display: flex;
+  height: 100%;
+  padding: 5px 20px;
+  /* width: ${({ $position }) => ($position ? '100%' : '80%')};
   height: ${({ $position }) => ($position ? '' : '100%')};
   margin-bottom: 30px;
   display: flex;
@@ -207,17 +284,24 @@ const MusicPlayerWrapper = styled.div`
   background: linear-gradient(120deg, #ff6f61, #444444, #1d1c1c);
   position: ${({ $position }) => ($position ? 'static' : 'fixed')};
   top: 0;
-  left: 0;
+  left: 0; */
 `;
 const MusicListsWrapper = styled.div`
+  position: fixed;
+  display: ${({ $position }) => ($position ? 'none' : 'flex')}; /* $position이 true일 때 display: none */
+
+  top: 0;
+  max-width: 480px;
+  z-index: 10;
+  height: calc(100vh - 130px);
   width: 100%;
+  background: linear-gradient(to bottom, #548599, #5d646d, #504f4f); /* 오른쪽 위에서 흐려짐 */
   overflow: auto;
-  display: flex;
   flex-direction: column;
   > span {
-    margin: 0 10px;
-    margin-bottom: 10px;
-    font-size: 18px;
+    margin: 8px;
+    margin-bottom: 20px;
+    font-size: 20px;
     color: white;
     font-weight: bold;
   }
@@ -225,13 +309,13 @@ const MusicListsWrapper = styled.div`
 
 const MusicList = styled.div`
   border: ${({ $playing }) => ($playing ? '1px solid lightgray' : 'none')};
-
+  padding: 5px;
+  position: relative;
   > img {
     height: 50px;
     width: 50px;
   }
 
-  margin: 5px 10px;
   color: white;
   display: flex;
   cursor: pointer;
@@ -239,6 +323,18 @@ const MusicList = styled.div`
 
 const MusicPlayers = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 65%;
+  :nth-child(1) {
+    color: white;
+  }
+  :nth-child(2) {
+    color: white;
+    font-size: 12px;
+  }
+  /* display: flex;
   padding: 10px;
   margin-top: 50px;
   justify-content: center;
@@ -260,7 +356,7 @@ const MusicPlayers = styled.div`
   > :nth-child(3) {
     color: gray;
     font-size: 11px;
-  }
+  } */
 `;
 
 const MusicInfo = styled.div`
@@ -274,23 +370,25 @@ const MusicInfo = styled.div`
   :nth-child(2) {
     font-size: 12px;
     margin-left: 10px;
-    color: #797777;
+    color: #a7a5a5;
   }
 `;
 
 const DeleteBtn = styled.div`
-  display: flex;
-  align-items: center;
-  > :nth-child(1) {
-    margin-right: 5px;
-  }
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
 `;
 
 const MusicPlayerBtnWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
 `;
 
 const Btn = ({ onClick, children }) => (
@@ -305,7 +403,6 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
@@ -322,12 +419,12 @@ const Icon = styled.div`
 `;
 
 const ProgressBarWrapper = styled.div`
-  width: 95%;
-  margin: 20px auto;
+  width: 100%;
   background-color: #e0e0e0;
   border-radius: 5px;
-  height: 5px;
-  position: relative;
+  height: 2px;
+  position: absolute;
+  top: 0;
   overflow: hidden;
   cursor: pointer;
 `;

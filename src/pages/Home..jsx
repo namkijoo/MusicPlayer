@@ -14,8 +14,8 @@ function Home() {
           <Outlet />
         </Main>
       </LeftBar> */}
-      {/* <MusicPlayer /> */}
       <Main>
+        <MusicPlayer />
         <Navbar />
         <Outlet />
       </Main>
@@ -24,9 +24,10 @@ function Home() {
 }
 
 const Container = styled.div`
+  position: relative;
+  z-index: 9999;
   display: flex;
   background-color: #212020;
-  align-items: center;
   justify-content: center;
   margin: 0 auto;
   max-width: 480px;
@@ -53,5 +54,6 @@ const LeftBar = styled.div`
 const Main = styled.div`
   width: 100%;
   display: flex;
+  position: relative;
 `;
 export default Home;
