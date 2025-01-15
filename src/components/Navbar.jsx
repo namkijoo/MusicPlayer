@@ -26,9 +26,9 @@ function Navbar() {
         <SearchIcon style={{}} />
       </NavItem>
       <NavItem
-        $isActive={location.pathname === '/search'}
+        $isActive={location.pathname === '/login'}
         onClick={() => {
-          navigate('/search');
+          navigate('/login');
         }}
       >
         <MyPageIcon />

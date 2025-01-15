@@ -31,27 +31,48 @@ function Login() {
   return (
     <TopMenuWrapper>
       <LoginWrapper onClick={isLoggedIn ? logout : login}>
-        <CiUser />
-        <span>{isLoggedIn ? '로그아웃' : '로그인'}</span>
+        <LoginBtn>
+          <CiUser />
+          <span>{isLoggedIn ? '로그아웃' : '로그인(Click)'}</span>
+        </LoginBtn>
+
+        <span>{isLoggedIn ? '' : '로그시 음악 검색, 추가, 삭제가 가능해집니다.'}</span>
       </LoginWrapper>
     </TopMenuWrapper>
   );
 }
 
 const TopMenuWrapper = styled.div`
+  width: 100%;
+  height: calc(100vh - 130px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 `;
 
 const LoginWrapper = styled.div`
-  :nth-child(1) {
-    margin-right: 7px;
-  }
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 15px;
   color: gray;
+  > span {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #2693bb;
+  }
+`;
+
+const LoginBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > span {
+    font-size: 15px;
+  }
 `;
 
 export default Login;
