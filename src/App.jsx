@@ -20,8 +20,8 @@ const router = createBrowserRouter([
         element: <Main />,
       },
       {
-        // path: 'search',
-        // element: <MusicSearch />,
+        path: 'search',
+        element: <MusicSearch />,
       },
     ],
   },

@@ -135,7 +135,7 @@ function MusicSearch() {
 
 const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 130px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,7 +144,7 @@ const Container = styled.div`
 
 const SearchWrapper = styled.div`
   width: 100%;
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -160,7 +160,7 @@ const SearchWrapper = styled.div`
   > input {
     border-radius: 20px;
     height: 35px;
-    width: 200px;
+    width: 250px;
     padding-left: 10px;
     padding-right: 30px;
     background-color: lightgray;
@@ -175,7 +175,7 @@ const SearchWrapper = styled.div`
 const Line = styled.hr`
   width: 100%;
   border: none;
-  margin-top: 40px;
+  margin-top: 30px;
   border-top: 0.1px dotted gray;
 `;
 
@@ -187,7 +187,7 @@ const ResultImg = styled.img`
 
 const MusicListWrapper = styled.div`
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   overflow: scroll;
   /* -ms-overflow-style: none;
 
@@ -215,6 +215,7 @@ const MusicListLeft = styled.div`
   > span {
     color: lightgray;
     margin-left: 20px;
+    font-size: 13px;
   }
 `;
 
@@ -229,7 +230,7 @@ const MusicListRight = styled.div`
     }
   }
   :nth-child(2) {
-    margin: 0 20px;
+    margin-left: 10px;
     &:hover {
       color: lightgray;
     }

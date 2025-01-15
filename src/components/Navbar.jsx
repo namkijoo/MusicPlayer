@@ -58,7 +58,7 @@ const NavItem = styled.span`
   cursor: pointer;
   color: ${({ $isActive }) => ($isActive ? 'white' : 'gray')};
   :nth-child(1) {
-    fill: lightgray;
+    fill: ${({ $isActive }) => ($isActive ? '#2693bb' : 'lightgray')};
     width: 30px;
     height: 30px;
   }

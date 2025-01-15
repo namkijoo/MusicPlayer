@@ -126,7 +126,7 @@ const TopMusicWrapper = styled.div`
     font-size: 20px;
   }
   > :nth-child(2) {
-    color: gray;
+    color: #2693bb;
     margin: 10px 10px;
     font-size: 15px;
   }
@@ -143,7 +143,7 @@ const RecommendMusicWrapper = styled.div`
     font-size: 20px;
   }
   > :nth-child(2) {
-    color: gray;
+    color: #2693bb;
     margin: 10px 10px;
     font-size: 15px;
   }
