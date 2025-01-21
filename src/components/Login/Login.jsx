@@ -63,7 +63,7 @@ const LoginWrapper = styled.div`
   color: gray;
   > span {
     font-size: 12px;
-    margin-top: 10px;
+    margin-top: 15px;
     color: #2693bb;
   }
 `;

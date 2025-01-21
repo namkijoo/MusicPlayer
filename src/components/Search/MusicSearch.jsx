@@ -40,6 +40,7 @@ function MusicSearch() {
     setVideoId(videoId);
     setIsPlaying(true);
   };
+
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
@@ -83,14 +84,22 @@ function MusicSearch() {
   const onPlayerReady = (event) => {
     setPlayer(event.target);
   };
+
   const opts = {
     playerVars: {
       autoplay: 1,
     },
   };
 
+  const highlightSearchTerm = (title) => {
+    if (!searchTerm) return title;
+    const regex = new RegExp(`(${searchTerm})`, 'gi');
+    return title.replace(regex, `<span style="color: #2693bb;">$1</span>`);
+  };
+
   return (
     <Container>
+      <Title>음악 검색</Title>
       <SearchWrapper>
         <input
           placeholder="검색어를 입력해주세요."
@@ -106,12 +115,16 @@ function MusicSearch() {
           data.map((element, index) => (
             <MusicList key={index}>
               <MusicListLeft>
-                <img src={element.snippet.thumbnails.medium.url} />
-                <span>
-                  {element.snippet.title.length > 40
-                    ? element.snippet.title.slice(0, 40) + '...'
-                    : element.snippet.title}
-                </span>
+                <img src={element.snippet.thumbnails.medium.url} alt="thumbnail" />
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: highlightSearchTerm(
+                      element.snippet.title.length > 40
+                        ? element.snippet.title.slice(0, 40) + '...'
+                        : element.snippet.title,
+                    ),
+                  }}
+                ></span>
               </MusicListLeft>
               <MusicListRight>
                 {currentAudioIndex === index && isPlaying ? (
@@ -124,7 +137,16 @@ function MusicSearch() {
             </MusicList>
           ))
         ) : (
-          <ResultImg src="/search.png" />
+          <EmptyState>
+            <SuggestionList>
+              <h4>인기 검색어:</h4>
+              <ul>
+                <li>#Billboard</li>
+                <li>#KPop</li>
+                <li>#TopHits</li>
+              </ul>
+            </SuggestionList>
+          </EmptyState>
         )}
       </MusicListWrapper>
     </Container>
@@ -136,13 +158,19 @@ const Container = styled.div`
   height: calc(100vh - 130px);
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 0 60px;
+`;
+
+const Title = styled.p`
+  font-size: 25px;
+  margin-top: 20px;
+  font-weight: bold;
+  color: white;
 `;
 
 const SearchWrapper = styled.div`
   width: 100%;
-  margin-top: 30px;
+  margin-top: 10px;
   display: flex;
   position: relative;
   align-items: center;
@@ -160,34 +188,14 @@ const SearchWrapper = styled.div`
     font-size: 15px;
     position: absolute;
     right: 0;
-    color: white;
+    color: #e3e3e3;
   }
-`;
-
-const Line = styled.hr`
-  width: 100%;
-  border: none;
-  margin-top: 30px;
-  border-top: 0.1px dotted gray;
-`;
-
-const ResultImg = styled.img`
-  margin-top: 180px;
-  margin-left: 50%;
-  transform: translateX(-50%);
 `;
 
 const MusicListWrapper = styled.div`
   width: 100%;
   padding: 5px;
   overflow: scroll;
-  /* -ms-overflow-style: none;
-
-  scrollbar-width: none;
-
-  ::-webkit-scrollbar {
-    display: none;
-  } */
 `;
 
 const MusicList = styled.div`
@@ -227,6 +235,32 @@ const MusicListRight = styled.div`
       color: lightgray;
     }
     cursor: pointer;
+  }
+`;
+
+const EmptyState = styled.div`
+  margin-top: 100px;
+  text-align: center;
+  color: lightgray;
+`;
+
+const SuggestionList = styled.div`
+  > h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #9bb1b9;
+  }
+  > ul {
+    list-style: none;
+    padding: 0;
+    > li {
+      margin: 5px 0;
+      cursor: pointer;
+      color: gray;
+      &:hover {
+        color: white;
+      }
+    }
   }
 `;
 
