@@ -99,7 +99,7 @@ const Container = styled.div`
   margin-top: 25px;
   display: flex;
   width: 100%;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 155px);
   flex-direction: column;
   align-items: center;
   overflow: auto;

@@ -32,8 +32,10 @@ function Login() {
     <TopMenuWrapper>
       <LoginWrapper onClick={isLoggedIn ? logout : login}>
         <LoginBtn>
-          <CiUser />
-          <span>{isLoggedIn ? '로그아웃' : '로그인(Click)'}</span>
+          <button type="button">
+            <CiUser />
+            {isLoggedIn ? '로그아웃' : '로그인(Click)'}
+          </button>
         </LoginBtn>
 
         <span>{isLoggedIn ? '' : '로그시 음악 검색, 추가, 삭제가 가능해집니다.'}</span>
@@ -70,8 +72,11 @@ const LoginBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  > span {
+  > button {
     font-size: 15px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 2px;
   }
 `;
 

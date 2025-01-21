@@ -92,16 +92,14 @@ function MusicSearch() {
   return (
     <Container>
       <SearchWrapper>
-        <FaSearch onClick={handleSearchClick} />
-        <span>검색</span>
         <input
           placeholder="검색어를 입력해주세요."
           onChange={onChangeSearch}
           value={searchTerm}
           onKeyDown={handleEnter}
         />
+        <FaSearch onClick={handleSearchClick} />
       </SearchWrapper>
-      <Line />
       {videoId && <YouTube videoId={videoId} opts={opts} style={{ display: 'none' }} onReady={onPlayerReady} />}
       <MusicListWrapper>
         {data.length > 0 ? (
@@ -146,29 +144,23 @@ const SearchWrapper = styled.div`
   width: 100%;
   margin-top: 30px;
   display: flex;
-  justify-content: space-between;
   position: relative;
   align-items: center;
-  :nth-child(1) {
-    bottom: 9px;
-    position: absolute;
-    right: 10px;
-    font-size: 17px;
-    color: #383737;
-    cursor: pointer;
-  }
   > input {
-    border-radius: 20px;
     height: 35px;
-    width: 250px;
-    padding-left: 10px;
-    padding-right: 30px;
-    background-color: lightgray;
-  }
-  > span {
-    font-size: 28px;
+    width: 100vw;
+    border: none;
+    border-bottom: 2px solid white;
+    background-color: inherit;
     color: white;
-    font-weight: bold;
+    outline: none;
+    padding-right: 20px;
+  }
+  > :nth-child(2) {
+    font-size: 15px;
+    position: absolute;
+    right: 0;
+    color: white;
   }
 `;
 

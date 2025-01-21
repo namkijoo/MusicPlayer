@@ -27,7 +27,7 @@ const Container = styled.div`
   position: relative;
   z-index: 9999;
   display: flex;
-  background-color: #212020;
+  background-color: #2b2a2a;
   justify-content: center;
   margin: 0 auto;
   max-width: 480px;
