@@ -4,12 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import styled from 'styled-components';
 import Login from './components/Login/Login';
+import Main from './components/Home/Main';
+import MusicSearch from './components/Search/MusicSearch';
 
 const VITE_GOOGLE_CLIENTID = import.meta.env.VITE_GOOGLE_CLIENTID;
 
 const Home = lazy(() => import('./pages/Home.'));
-const Main = lazy(() => import('./components/Home/Main'));
-const MusicSearch = lazy(() => import('./components/Search/MusicSearch'));
 
 const router = createBrowserRouter([
   {
@@ -30,6 +30,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { basename: '/' },
 ]);
 
 const queryClient = new QueryClient();
