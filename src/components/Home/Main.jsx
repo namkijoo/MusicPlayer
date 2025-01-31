@@ -15,6 +15,7 @@ const settings = {
   slidesToShow: 2,
   slidesToScroll: 2,
   arrows: false,
+  lazyLoad: 'ondemand',
 };
 
 const recommendedMusic = [
@@ -49,12 +50,11 @@ const recommendedMusic = [
     imgUrl: 'https://i.ytimg.com/vi/SBDAk5I4Ll4/mqdefault.jpg',
   },
 ];
-
 function Main() {
   const { data } = useQuery({
     queryKey: ['getTopMusic'],
     queryFn: getTopMusic,
-    staleTime: Infinity,
+    staleTime: 5 * 60 * 1000, // 데이터 5분 동안 캐싱
   });
 
   const recommendedMusicList = useMemo(() => recommendedMusic, []);
@@ -73,7 +73,7 @@ function Main() {
         <span>에디터가 추천하는 음악을 같이 즐겨요.</span>
         <MusicBox>
           {recommendedMusicList.map((music, index) => (
-            <MusicBoxItem key={index} title={music.title} artist={music.artist} imgUrl={music.imgUrl} />
+            <MusicBoxItem key={index} title={music.title} artist={music.artist} imgUrl={music.imgUrl} loading="lazy" />
           ))}
         </MusicBox>
       </RecommendMusicWrapper>
@@ -92,7 +92,7 @@ const CustomSlider = styled(Slider)`
     opacity: 1;
   }
   position: relative;
-  z-index: 10; /* 여기서 슬라이더의 전체 z-index 설정 */
+  z-index: 10;
 `;
 
 const Container = styled.div`
@@ -106,10 +106,8 @@ const Container = styled.div`
   -ms-overflow-style: none;
   position: relative;
   z-index: 0;
-  /* Firefox */
   scrollbar-width: none;
 
-  /* Webkit (Chrome, Safari) */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -155,4 +153,5 @@ const MusicBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
+
 export default Main;

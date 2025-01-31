@@ -177,84 +177,27 @@ function MusicPlayer() {
       <MusicListsWrapper $position={position}>
         <span>재생목록</span>
         {data &&
-          data.map((element, key) => (
+          (data || [])?.map((element, key) => (
             <MusicList key={key} $playing={currentAudioIndex === key}>
-              <img src={element.snippet.thumbnails.default.url} />
+              <img src={element?.snippet?.thumbnails?.default?.url || ''} />
               <MusicInfo onClick={() => onClickMusicList(key)}>
                 <span>
-                  {element.snippet.title.length > 40
-                    ? element.snippet.title.slice(0, 40) + '...'
-                    : element.snippet.title}
+                  {element?.snippet?.title?.length > 40
+                    ? element?.snippet?.title.slice(0, 40) + '...'
+                    : element?.snippet?.title || '제목 없음'}
                 </span>
                 <span>
-                  {element.snippet.videoOwnerChannelTitle.length > 40
-                    ? element.snippet.videoOwnerChannelTitle.slice(0, 40) + '...'
-                    : element.snippet.videoOwnerChannelTitle}
+                  {element?.snippet?.videoOwnerChannelTitle?.length > 40
+                    ? element?.snippet?.videoOwnerChannelTitle.slice(0, 40) + '...'
+                    : element?.snippet?.videoOwnerChannelTitle || '채널 정보 없음'}
                 </span>
               </MusicInfo>
-              <DeleteBtn onClick={() => onDeleteBtnClick(element.id)}>
+              <DeleteBtn onClick={() => onDeleteBtnClick(element?.id)}>
                 <RiDeleteBin5Line />
               </DeleteBtn>
             </MusicList>
           ))}
       </MusicListsWrapper>
-      {/* <MusicPlayerWrapper $position={position}>
-        {Array.isArray(data) && data.length > 0 && (
-          <>
-            <YouTube
-              key={currentAudioIndex}
-              videoId={data[currentAudioIndex].snippet.resourceId.videoId}
-              opts={{
-                playerVars: { autoplay: 1 },
-              }}
-              style={{ display: 'none' }}
-              onReady={onPlayerReady}
-              onEnd={onPlayerEnd}
-            />
-            <MusicPlayers>
-              <img src={data[currentAudioIndex].snippet.thumbnails.medium.url} onClick={() => setPosition(!position)} />
-              <span>{data[currentAudioIndex].snippet.title}</span>
-              <span>{data[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
-              <ProgressBarWrapper onClick={onProgressBarClick}>
-                <ProgressBar progress={progress} />
-              </ProgressBarWrapper>
-              <MusicPlayerBtnWrapper>
-                <Btn onClick={playPrevAudio}>
-                  <FaChevronLeft />
-                </Btn>
-                <Btn onClick={togglePlayPause}>{isPlaying ? <FaPause /> : <FaPlay />}</Btn>
-                <Btn onClick={playNextAudio}>
-                  <FaChevronRight />
-                </Btn>
-              </MusicPlayerBtnWrapper>
-            </MusicPlayers>
-          </>
-        )}
-      </MusicPlayerWrapper>
-      <MusicListsWrapper>
-        <span>재생목록</span>
-        {data &&
-          data.map((element, key) => (
-            <MusicList key={key} $playing={currentAudioIndex === key}>
-              <DeleteBtn onClick={() => onDeleteBtnClick(element.id)}>
-                <RiDeleteBin5Line />
-              </DeleteBtn>
-              <img src={element.snippet.thumbnails.default.url} />
-              <MusicInfo onClick={() => onClickMusicList(key)}>
-                <span>
-                  {element.snippet.title.length > 10
-                    ? element.snippet.title.slice(0, 40) + '...'
-                    : element.snippet.title}
-                </span>
-                <span>
-                  {element.snippet.videoOwnerChannelTitle.length > 10
-                    ? element.snippet.videoOwnerChannelTitle.slice(0, 40) + '...'
-                    : element.snippet.videoOwnerChannelTitle}
-                </span>
-              </MusicInfo>
-            </MusicList>
-          ))}
-      </MusicListsWrapper> */}
     </Container>
   );
 }
@@ -274,28 +217,18 @@ const MusicPlayerWrapper = styled.div`
   display: flex;
   height: 100%;
   padding: 5px 20px;
-  /* width: ${({ $position }) => ($position ? '100%' : '80%')};
-  height: ${({ $position }) => ($position ? '' : '100%')};
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  background: linear-gradient(120deg, #ff6f61, #444444, #1d1c1c);
-  position: ${({ $position }) => ($position ? 'static' : 'fixed')};
-  top: 0;
-  left: 0; */
 `;
 const MusicListsWrapper = styled.div`
   position: fixed;
   display: ${({ $position }) => ($position ? 'none' : 'flex')}; /* $position이 true일 때 display: none */
-
+  padding: 0 20px;
+  padding-top: 20px;
   top: 0;
   max-width: 480px;
   z-index: 10;
   height: calc(100vh - 130px);
   width: 100%;
-  background: linear-gradient(to bottom, #548599, #5d646d, #504f4f); /* 오른쪽 위에서 흐려짐 */
+  background: linear-gradient(to bottom, #0c0c0c, #454546, #939292); /* 오른쪽 위에서 흐려짐 */
   overflow: auto;
   flex-direction: column;
   > span {
@@ -334,29 +267,6 @@ const MusicPlayers = styled.div`
     color: white;
     font-size: 12px;
   }
-  /* display: flex;
-  padding: 10px;
-  margin-top: 50px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  > img {
-    width: 55%;
-    height: 45%;
-    cursor: pointer;
-  }
-  > :nth-child(2) {
-    margin: 5px;
-    margin-top: 10px;
-    color: white;
-    font-size: 12px;
-  }
-  > :nth-child(3) {
-    color: gray;
-    font-size: 11px;
-  } */
 `;
 
 const MusicInfo = styled.div`

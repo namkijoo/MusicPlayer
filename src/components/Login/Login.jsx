@@ -77,6 +77,7 @@ const LoginBtn = styled.div`
     text-align: center;
     border-radius: 5px;
     padding: 2px;
+    cursor: pointer;
   }
 `;
 

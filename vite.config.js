@@ -6,10 +6,28 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({
-      exportAsDefault: false, // ReactComponent 방식 사용
+      exportAsDefault: false,
       svgrOptions: {
-        icon: true, // 아이콘 옵션 활성화
+        icon: true,
       },
     }),
   ],
+  build: {
+    minify: 'esbuild',
+    treeshake: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      css: {
+        purge: true,
+      },
+    },
+  },
 });

@@ -2,18 +2,10 @@ import styled from 'styled-components';
 import MusicPlayer from '../components/Home/MusicPlayer';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import Header from '../components/Header';
 
 function Home() {
   return (
     <Container>
-      {/* <LeftBar>
-        <Header />
-        <Main>
-          <Navbar />
-          <Outlet />
-        </Main>
-      </LeftBar> */}
       <Main>
         <MusicPlayer />
         <Navbar />
