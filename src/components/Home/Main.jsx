@@ -117,7 +117,7 @@ const TopMusicWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 50px;
+  padding: 0 30px;
   > :nth-child(1) {
     color: white;
     margin: 0 10px;
@@ -134,7 +134,7 @@ const RecommendMusicWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 50px;
+  padding: 25px;
   > :nth-child(1) {
     color: white;
     margin: 0 10px;

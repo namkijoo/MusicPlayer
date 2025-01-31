@@ -158,7 +158,7 @@ const Container = styled.div`
   height: calc(100vh - 130px);
   display: flex;
   flex-direction: column;
-  padding: 0 60px;
+  padding: 0 25px;
 `;
 
 const Title = styled.p`

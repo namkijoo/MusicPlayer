@@ -36,13 +36,6 @@ const Container = styled.div`
   }
 `;
 
-const LeftBar = styled.div`
-  width: 80%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
 const Main = styled.div`
   width: 100%;
   display: flex;
