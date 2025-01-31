@@ -118,6 +118,7 @@ const TopMusicWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 0 30px;
+  margin-bottom: 20px;
   > :nth-child(1) {
     color: white;
     margin: 0 10px;
