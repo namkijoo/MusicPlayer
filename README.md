@@ -20,6 +20,9 @@
 ### 재생목록 불러오기 및 재생
 ![image](https://github.com/user-attachments/assets/39458234-710b-4a19-a184-3707c9fc9761)
 
+### 음악 전체 화면
+![image](https://github.com/user-attachments/assets/2cb48bb1-18d7-4391-a519-780821531a8a)
+
 ### 인기 음악 추천
 ![image](https://github.com/user-attachments/assets/86d35353-2131-4859-a3e9-d207ad086c2c)
 
