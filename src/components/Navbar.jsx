@@ -47,6 +47,7 @@ const Container = styled.div`
   text-align: center;
   border-top: 1px solid lightgray;
   background-color: #212020;
+  z-index: 99999999999;
 `;
 
 const NavItem = styled.span`
