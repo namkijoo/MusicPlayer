@@ -17,14 +17,15 @@
 </div>
 
 ## 기능
-### 재생목록 불러오기 및 재생
-![image](https://github.com/user-attachments/assets/39458234-710b-4a19-a184-3707c9fc9761)
+### 음악 추천 및 재생
+![image](https://github.com/user-attachments/assets/0dd4f05b-904f-47bd-9812-74f935ef52bb)
 
-### 음악 전체 화면
-![image](https://github.com/user-attachments/assets/2cb48bb1-18d7-4391-a519-780821531a8a)
-
-### 인기 음악 추천
-![image](https://github.com/user-attachments/assets/86d35353-2131-4859-a3e9-d207ad086c2c)
+### 음악 재생 목록 및 선택
+![image](https://github.com/user-attachments/assets/72848004-d4e0-4b0f-9f30-3d8dbd0cb347)
 
 ### 음악 검색 및 추가하기
-![image](https://github.com/user-attachments/assets/47a6f172-addb-4601-a08f-6cc03c7e159f)
+![image](https://github.com/user-attachments/assets/4edda7a2-a129-4e3c-9002-9fbcaee28f1b)
+
+### 로그인 처리
+![image](https://github.com/user-attachments/assets/d3e68c35-63d2-4012-ba2c-ce317249026c)
+
