@@ -146,8 +146,8 @@ function MusicPlayer() {
             />
             <MusicPlayers>
               <span>
-                {data[currentAudioIndex].snippet.title.length > 20
-                  ? data[currentAudioIndex].snippet.title.slice(0, 20) + '...'
+                {data[currentAudioIndex].snippet.title.length > 30
+                  ? data[currentAudioIndex].snippet.title.slice(0, 30) + '...'
                   : data[currentAudioIndex].snippet.title}
               </span>
               <span>{data[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>

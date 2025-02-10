@@ -64,10 +64,10 @@ function MusicSearch() {
         try {
           mutate(videoId);
         } catch (error) {
-          console.error('삭제 중 에러 발생: ', error);
+          console.error('추가 중 에러 발생: ', error);
         }
       } else {
-        alert('삭제가 취소되었습니다.');
+        alert('추가가가 취소되었습니다.');
       }
     }
   };
