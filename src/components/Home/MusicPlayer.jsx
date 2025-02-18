@@ -2,7 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { deleteMusicList, getPlaylistItem } from '../../api/MusicApi/music.api';
 import YouTube from 'react-youtube';
-import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
+import { FaChevronLeft } from '@react-icons/all-files/fa/FaChevronLeft';
+import { FaChevronRight } from '@react-icons/all-files/fa/FaChevronRight';
+import { FaPause } from '@react-icons/all-files/fa/FaPause';
+import { FaPlay } from '@react-icons/all-files/fa/FaPlay';
+
 import { useQuery } from '@tanstack/react-query';
 import { musicStore } from '../../store/musicStore';
 import { RiDeleteBin5Line } from 'react-icons/ri';

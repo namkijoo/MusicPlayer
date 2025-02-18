@@ -8,6 +8,11 @@ import MusicBoxItem from './MusicBoxItem';
 import SliderItem from './SliderItem';
 import { useMemo } from 'react';
 
+// Cloudinary 최적화 URL 변환 함수
+const getOptimizedThumbnail = (imgUrl) => {
+  return `https://res.cloudinary.com/dihgxevjy/image/fetch/f_auto,q_auto/${encodeURIComponent(imgUrl)}`;
+};
+
 const settings = {
   dots: true,
   infinite: true,
@@ -50,6 +55,7 @@ const recommendedMusic = [
     imgUrl: 'https://i.ytimg.com/vi/SBDAk5I4Ll4/mqdefault.jpg',
   },
 ];
+
 function Main() {
   const { data } = useQuery({
     queryKey: ['getTopMusic'],
@@ -65,7 +71,17 @@ function Main() {
         <span>TOP 10 추천</span>
         <span>인기있는 10개의 추천 음악을 같이 즐겨요.</span>
         <CustomSlider {...settings}>
-          {data && data.map((element, index) => <SliderItem key={index} element={element} />)}
+          {data &&
+            data.map((element, index) => (
+              <SliderItem
+                key={index}
+                element={{
+                  ...element,
+                  imgUrl: getOptimizedThumbnail(element.imgUrl),
+                }}
+                loading="lazy"
+              />
+            ))}
         </CustomSlider>
       </TopMusicWrapper>
       <RecommendMusicWrapper>
@@ -73,7 +89,13 @@ function Main() {
         <span>에디터가 추천하는 음악을 같이 즐겨요.</span>
         <MusicBox>
           {recommendedMusicList.map((music, index) => (
-            <MusicBoxItem key={index} title={music.title} artist={music.artist} imgUrl={music.imgUrl} loading="lazy" />
+            <MusicBoxItem
+              key={index}
+              title={music.title}
+              artist={music.artist}
+              imgUrl={getOptimizedThumbnail(music.imgUrl)}
+              loading="lazy"
+            />
           ))}
         </MusicBox>
       </RecommendMusicWrapper>

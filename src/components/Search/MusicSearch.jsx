@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { FaPause, FaPlay, FaPlus, FaSearch } from 'react-icons/fa';
+import { FaPause } from '@react-icons/all-files/fa/FaPause';
+import { FaPlay } from '@react-icons/all-files/fa/FaPlay';
+import { FaPlus } from '@react-icons/all-files/fa/FaPlus';
+import { FaSearch } from '@react-icons/all-files/fa/FaSearch';
+
 import { useState } from 'react';
 import { getSearchMusicList, postMusicList } from '../../api/MusicApi/music.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
