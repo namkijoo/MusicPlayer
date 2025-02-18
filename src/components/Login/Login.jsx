@@ -1,5 +1,6 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
+import { CiUser } from 'react-icons/ci';
 import styled from 'styled-components';
 
 const VITE_YOUTUBE_SCOPE = import.meta.env.VITE_YOUTUBE_SCOPE;
@@ -31,7 +32,10 @@ function Login() {
     <TopMenuWrapper>
       <LoginWrapper onClick={isLoggedIn ? logout : login}>
         <LoginBtn>
-          <button type="button">{isLoggedIn ? '로그아웃' : '로그인(Click)'}</button>
+          <button type="button">
+            <CiUser />
+            {isLoggedIn ? '로그아웃' : '로그인(Click)'}
+          </button>
         </LoginBtn>
 
         <span>{isLoggedIn ? '' : '로그시 음악 검색, 추가, 삭제가 가능해집니다.'}</span>
