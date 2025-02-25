@@ -28,6 +28,13 @@ function Login() {
     alert('로그아웃 되었습니다. ');
     setIsLoggedIn(false);
   };
+
+  const openInstagramStory = () => {
+    const imageUri =
+      'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fvelog.velcdn.com%2Fimages%2Fkcj_dev96%2Fpost%2Ffa647d3f-d927-4dfb-aec0-08bf39ad9ea2%2FreactPosting1.png&type=sc960_832';
+
+    window.location.href = `instagram://story-camera?backgroundImage=${encodeURIComponent(imageUri)}`;
+  };
   return (
     <TopMenuWrapper>
       <LoginWrapper onClick={isLoggedIn ? logout : login}>
@@ -40,6 +47,9 @@ function Login() {
 
         <span>{isLoggedIn ? '' : '로그시 음악 검색, 추가, 삭제가 가능해집니다.'}</span>
       </LoginWrapper>
+      <button type="button" onClick={openInstagramStory}>
+        인스타그램 스토리 공유
+      </button>
     </TopMenuWrapper>
   );
 }
