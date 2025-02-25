@@ -2,6 +2,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
 import { CiUser } from 'react-icons/ci';
 import styled from 'styled-components';
+import { saveAs } from 'file-saver';
 
 const VITE_YOUTUBE_SCOPE = import.meta.env.VITE_YOUTUBE_SCOPE;
 
@@ -35,18 +36,10 @@ function Login() {
 
     try {
       const response = await fetch(imageUri);
+      if (!response.ok) throw new Error('Network response was not ok');
+
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'downloaded-image.png'; // 다운로드될 파일 이름
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Blob URL 해제
-      window.URL.revokeObjectURL(url);
+      saveAs(blob, 'reactPosting1.png'); // 다운로드될 파일 이름
     } catch (error) {
       console.error('Error downloading image:', error);
     }
