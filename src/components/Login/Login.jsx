@@ -32,13 +32,18 @@ function Login() {
 
   const downloadImageAsBlob = async () => {
     const imageUri =
-      'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fvelog.velcdn.com%2Fimages%2Fkcj_dev96%2Fpost%2Ffa647d3f-d927-4dfb-aec0-08bf39ad9ea2%2FreactPosting1.png&type=sc960_832';
+      'https://api.allorigins.win/get?url=' +
+      encodeURIComponent(
+        'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fvelog.velcdn.com%2Fimages%2Fkcj_dev96%2Fpost%2Ffa647d3f-d927-4dfb-aec0-08bf39ad9ea2%2FreactPosting1.png&type=sc960_832',
+      );
 
     try {
       const response = await fetch(imageUri);
       if (!response.ok) throw new Error('Network response was not ok');
 
-      const blob = await response.blob();
+      const data = await response.json(); // JSON 데이터로 변환
+      const blob = await (await fetch(data.contents)).blob(); // 실제 이미지 URL을 가져옵니다.
+
       saveAs(blob, 'reactPosting1.png'); // 다운로드될 파일 이름
     } catch (error) {
       console.error('Error downloading image:', error);
