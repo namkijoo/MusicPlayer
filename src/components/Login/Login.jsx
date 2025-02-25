@@ -29,16 +29,27 @@ function Login() {
     setIsLoggedIn(false);
   };
 
-  const downloadImage = () => {
+  const downloadImageAsBlob = async () => {
     const imageUri =
       'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fvelog.velcdn.com%2Fimages%2Fkcj_dev96%2Fpost%2Ffa647d3f-d927-4dfb-aec0-08bf39ad9ea2%2FreactPosting1.png&type=sc960_832';
 
-    const link = document.createElement('a');
-    link.href = imageUri;
-    link.download = 'downloaded-image.png'; // 다운로드될 파일 이름
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const response = await fetch(imageUri);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'downloaded-image.png'; // 다운로드될 파일 이름
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Blob URL 해제
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
   };
 
   return (
@@ -53,7 +64,7 @@ function Login() {
 
         <span>{isLoggedIn ? '' : '로그시 음악 검색, 추가, 삭제가 가능해집니다.'}</span>
       </LoginWrapper>
-      <button type="button" onClick={downloadImage}>
+      <button type="button" onClick={downloadImageAsBlob}>
         다운로드
       </button>
     </TopMenuWrapper>
