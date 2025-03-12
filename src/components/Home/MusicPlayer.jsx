@@ -6,10 +6,10 @@ import { FaChevronLeft } from '@react-icons/all-files/fa/FaChevronLeft';
 import { FaChevronRight } from '@react-icons/all-files/fa/FaChevronRight';
 import { FaPause } from '@react-icons/all-files/fa/FaPause';
 import { FaPlay } from '@react-icons/all-files/fa/FaPlay';
+import { MdDelete } from '@react-icons/all-files/md/MdDelete';
 
 import { useQuery } from '@tanstack/react-query';
 import { musicStore } from '../../store/musicStore';
-import { RiDeleteBin5Line } from 'react-icons/ri';
 import { ListIcon } from '../../assets/_index';
 
 function MusicPlayer() {
@@ -150,8 +150,8 @@ function MusicPlayer() {
             />
             <MusicPlayers>
               <span>
-                {data[currentAudioIndex].snippet.title.length > 30
-                  ? data[currentAudioIndex].snippet.title.slice(0, 30) + '...'
+                {data[currentAudioIndex].snippet.title.length > 25
+                  ? data[currentAudioIndex].snippet.title.slice(0, 25) + '...'
                   : data[currentAudioIndex].snippet.title}
               </span>
               <span>{data[currentAudioIndex].snippet.videoOwnerChannelTitle}</span>
@@ -197,7 +197,7 @@ function MusicPlayer() {
                 </span>
               </MusicInfo>
               <DeleteBtn onClick={() => onDeleteBtnClick(element?.id)}>
-                <RiDeleteBin5Line />
+                <MdDelete />
               </DeleteBtn>
             </MusicList>
           ))}

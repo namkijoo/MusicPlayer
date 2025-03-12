@@ -1,6 +1,6 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
-import { CiUser } from 'react-icons/ci';
+// import { CiUser } from 'react-icons/ci';
 import styled from 'styled-components';
 import { saveAs } from 'file-saver';
 
@@ -35,7 +35,7 @@ function Login() {
       <LoginWrapper onClick={isLoggedIn ? logout : login}>
         <LoginBtn>
           <button type="button">
-            <CiUser />
+            {/* <CiUser /> */}
             {isLoggedIn ? '로그아웃' : '로그인(Click)'}
           </button>
         </LoginBtn>
